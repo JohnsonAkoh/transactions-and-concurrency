@@ -1,35 +1,37 @@
-
 -- =====================================================
 -- MIVA MIT PORTFOLIO 3
--- TRANSACTIONS AND CONCURRENCY
 -- Experiment 1: COMMIT Transaction
 -- Case Study: Student Management System
--- Database: PostgreSQL 18
+-- PostgreSQL 18
 -- =====================================================
 
--- Start a new transaction
+-- Remove previous temporary test table if present
+DROP TABLE IF EXISTS transaction_commit_test;
+
+-- Start transaction
 BEGIN;
 
--- Create a temporary test table for transaction testing
-CREATE TEMPORARY TABLE transaction_commit_test (
+-- Create temporary test table
+CREATE TEMP TABLE transaction_commit_test (
     test_id SERIAL PRIMARY KEY,
     student_name VARCHAR(100) NOT NULL,
     department VARCHAR(100),
     transaction_status VARCHAR(30)
-);
+) ON COMMIT PRESERVE ROWS;
 
--- Insert a test student record
+-- Insert test records
 INSERT INTO transaction_commit_test
 (student_name, department, transaction_status)
 VALUES
-('Portfolio Test Student', 'Computer Science', 'Committed');
+('Portfolio Test Student',
+ 'Computer Science',
+ 'Committed'),
+('Portfolio Commit Test 002',
+ 'Computer Science',
+ 'Committed');
 
--- Verify the inserted record before committing
-SELECT * FROM transaction_commit_test;
-
--- Permanently save the transaction
+-- Save transaction permanently
 COMMIT;
 
--- Verify the committed record
+-- Verify committed records
 SELECT * FROM transaction_commit_test;
-
