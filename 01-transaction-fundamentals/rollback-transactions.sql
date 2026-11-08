@@ -27,11 +27,11 @@ VALUES
  'Computer Science',
  'Pending');
 
--- Check record before rollback
+-- Check the inserted record before rollback
 SELECT * FROM transaction_rollback_test;
 
--- Reverse the transaction
+-- Reverse the uncommitted insertion
 ROLLBACK;
 
--- Verify that the inserted record was reversed
+-- Verify that no inserted records remain
 SELECT * FROM transaction_rollback_test;
